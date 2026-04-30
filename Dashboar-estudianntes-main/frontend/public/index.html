@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+</head>
+
+<body>
+
+  <style>
+
+
+
+
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+url("/assets/protais-benjamin-mugenzi-OYp7rGlNbYg-unsplash.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+
+    .ctn-formulario{
+  width: 350px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0,0,0.1);
+  
+}
+
+
+
+
+.ctn-formulario h3{
+  text-align: center;
+   color: #3a7bd5;
+   margin-bottom: 20px
+}
+
+.ctn-formulario .campo{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.campo label{
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.campo input{
+  padding: 10px;
+  border:  1px solid #b8c7e0;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+
+.campo input:focus{
+  outline: none;
+   border-color: #3a7bd5;
+ box-shadow: 0 0 12px rgba(68, 88, 213, 0.584);
+
+}
+
+
+.ctn-formulario .btn-primary{
+  margin-bottom: 20px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  background-color: #3a7bd5;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ctn-formulario .btn-primary:hover{
+  background-color:#255ea8;;
+}
+
+
+
+.campo  .btn-secundario {
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid #3a7bd5;
+  color: #3a7bd5;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-secundario:hover {
+  background: #3a7bd5;
+  color: white;
+}
+
+/*Parte del segundo formulario */
+
+.doble_Campo{
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+
+.doble_Campo .campo1{
+ display: flex;
+ flex-direction: column;
+ flex: 1;
+}
+
+.doble_Campo .campo1 input{
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  border:  1px solid  rgba(17, 42, 181, 0.489);
+}
+
+
+.doble_Campo .campo1  input:focus{
+  outline: none;
+  border-color: #255ea8;
+  box-shadow: 0 0 8px rgba(11, 45, 238, 0.489);
+}
+
+
+
+.doble_Campo .campo1 label{
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+
+.campo_correo{
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.campo_correo input{
+  width: 100%;
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  border: 1px solid rgba(68, 88, 213, 0.584);
+}
+
+.campo_correo input:focus{
+  outline: none;
+   border-color: #255ea8;
+  box-shadow: 0 0 8px rgba(11, 45, 238, 0.489);
+
+}
+
+.campo_correo label{
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+
+.ctn_buttons{
+  width: 100%;
+  display: flex;
+ gap: 25px;
+ margin-top: 80px;
+}
+
+.buttons_prvents_After{
+  display: flex;
+  flex: 1;
+ 
+}
+
+.buttons_prvents_After button{
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  background-color:   #3a7bd5;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+
+}
+
+.buttons_prvents_After button:hover{
+  background-color: #255ea8;
+}
+
+.form-step{
+  display: none;
+}
+
+.form-step.Active{
+display: block;
+}
+
+.campo select{
+  width: 100%;
+  flex: 1;
+  padding: 10px;
+  border:  1px solid rgba(68, 88, 213, 0.584);
+  cursor: pointer;
+}
+
+.campo select:focus{
+  outline: none;
+}
+
+
+
+
+  </style>
+
+
+
+<div class="ctn-formulario">
+
+  <!-- LOGIN -->
+  <div class="form-step Active">
+    <h3> Iniciar Sesión</h3>
+    <form action="/login" method="post" id="formu">
+      <div class="campo">
+        <label for="correo">Correo</label>
+        <input id="correo" type="email" name="email" placeholder="Tucorreo@ejemplo.com">
+      </div>
+
+      <div class="campo">
+        <label for="Password">Contraseña</label>
+        <input id="Password" type="password" name="password" placeholder="••••••••" >
+      </div>
+         <div class="campo">
+        <label for="role">Tipo de Usuario</label>
+        <select id="role" name="role" required>
+          <option value="estudiante">Estudiante</option>
+          <option value="profesor">profesor</option>
+            <option value="administrador">administrador</option>
+        </select>
+      </div>
+
+ 
+      <button type="submit" class="btn-primary">Entrar</button>
+
+      <div class="campo registro">
+        <label>¿No tienes cuenta? Regístrate</label>
+        <button id="register" class="btn-secundario" type="button">Registrate</button>
+         <button id="reset" type="button" class="btn-secundario">olvidates contraseña</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- REGISTRO -->
+  <div class="form-step">
+    <h3>Registrarse</h3>
+    <form action="/register" method="post">
+
+      <div class="doble_Campo">
+        <div class="campo1">
+          <label for="Nombre">Nombre</label>
+          <input id="Nombre" type="text" name="firstName" placeholder="Nombre"  required>
+        </div>
+
+        <div class="campo1">
+          <label for="Apellido">Apellido</label>
+          <input id="Apellido" type="text" name="lastName" placeholder="Apellido" required>
+        </div>
+      </div>
+
+      <div class="campo_correo">
+        <label for="Gmail">Email</label>
+        <input id="Gmail" type="email" name="email" placeholder="Email" required>
+      </div>
+
+      <div class="campo">
+        <label for="Password">Contraseña</label>
+        <input id="Password" type="password" name="password" placeholder="••••••••" minlength="8" required>
+        
+      </div>
+
+      <div class="campo">
+        <label for="role">Tipo de Usuario</label>
+        <select id="role" name="role" required>
+        <option value="estudiante">Estudiante</option>
+        <option value="profesor">Profesor</option>
+       <option value="administrador">Administrador</option>
+        </select>
+      </div>
+
+      <div class="ctn_buttons">
+        <div class="buttons_prvents_After">
+          <button type="button" class="prevent">Volver</button>
+        </div>
+
+        <div class="buttons_prvents_After">
+          <button type="submit" class="mandar">Registrarse</button>
+           
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+  
+</body>
+<script src="Funcion.js"></script>
+
+
+
+</html>
