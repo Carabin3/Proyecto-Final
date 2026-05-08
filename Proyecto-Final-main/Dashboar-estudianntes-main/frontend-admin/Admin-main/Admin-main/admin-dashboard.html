@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SICAU - Panel de Administración</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .top-bar {
+            background-color: #293a52;
+            color: white;
+            padding: 6px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.85rem;
+        }
+        .top-bar a { color: white; text-decoration: none; opacity: 0.85; }
+        .top-bar a:hover { opacity: 1; }
+        .btn-logout {
+            background-color: #c0392b;
+            padding: 4px 12px;
+            border-radius: 4px;
+            opacity: 1 !important;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+            color: white;
+        }
+        .btn-logout:hover { background-color: #e74c3c; }
+        #headerSicau {
+            background-color: #ffffff;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.25rem 2rem;
+            border-bottom: 3px solid #1e2d40;
+        }
+        #headerSicau .logo-institucion {
+            height: auto;
+            max-height: 56px;
+            width: auto;
+            max-width: min(100%, 440px);
+            display: block;
+        }
+        #headerSicau .logo-sicau {
+            height: auto;
+            max-height: 52px;
+            width: auto;
+            max-width: min(100%, 380px);
+            display: block;
+        }
+        .navbar {
+            background-color: #1e2d40;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .navbar a {
+            color: #b0c4de;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 12px 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .navbar a:hover, .navbar a.active {
+            color: white;
+            background-color: #293a52;
+        }
+        .saludo {
+            padding: 20px 30px;
+        }
+        .mensajeBienvenida {
+            font-size: 2rem;
+            color: #293a52;
+            font-weight: 700;
+        }
+        .subtitulo {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.35rem;
+        }
+        .dashboard {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem 1.5rem;
+        }
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 4px solid;
+        }
+        .card.blue   { border-color: #4a90d9; }
+        .card.green  { border-color: #27ae60; }
+        .card.orange { border-color: #e67e22; }
+        .card.purple { border-color: #8e44ad; }
+        .card.red    { border-color: #c0392b; }
+        .card-number { font-size: 2rem; font-weight: 700; color: #293a52; }
+        .card-label  { font-size: 0.85rem; color: #777; margin-top: 0.3rem; }
+        .section-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        h2 { font-size: 1.15rem; color: #293a52; margin-bottom: 1rem; }
+        .section-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .section-head h2 { margin-bottom: 0; }
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .btn {
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+        .btn-primary { background: #293a52; color: white; }
+        .btn-primary:hover { background: #1e2d40; }
+        .btn-outline {
+            background: white;
+            color: #293a52;
+            border: 1px solid #293a52;
+        }
+        .btn-outline:hover { background: #f0f2f5; }
+        .search {
+            padding: 0.45rem 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            min-width: 180px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.8rem;
+        }
+        .info-item { font-size: 0.95rem; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+        .info-item .label { font-weight: 600; color: #555; }
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        thead { background-color: #293a52; color: white; }
+        th, td { padding: 0.75rem 1rem; text-align: left; }
+        tbody tr { border-bottom: 1px solid #eee; }
+        tbody tr:hover { background-color: #f8f9fa; }
+        .empty { text-align: center; color: #aaa; padding: 2rem; }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-active { background: #d4edda; color: #155724; }
+        .badge-inactive { background: #f8d7da; color: #721c24; }
+        .badge-role-admin { background: #e8daef; color: #6c3483; }
+        .badge-role-teacher { background: #d6eaf8; color: #1b4f72; }
+        .badge-role-student { background: #d5f5e3; color: #145a32; }
+        .actions { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+        .btn-sm {
+            padding: 0.25rem 0.55rem;
+            font-size: 0.78rem;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+        .btn-danger { background: #c0392b; color: white; }
+        .btn-danger:hover { background: #e74c3c; }
+        .btn-muted { background: #ecf0f1; color: #333; }
+        .btn-muted:hover { background: #bdc3c7; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-success:hover { background: #219a52; }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 900px) {
+            .two-col { grid-template-columns: 1fr 1fr; }
+        }
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #888;
+            font-size: 0.85rem;
+            border-top: 1px solid #ddd;
+        }
+        .footer-logo {
+            display: block;
+            margin: 0 auto 0.6rem;
+            height: auto;
+            max-height: 44px;
+            width: auto;
+            max-width: min(100%, 320px);
+        }
+        @media (max-width: 600px) {
+            .mensajeBienvenida { font-size: 1.4rem; }
+            #headerSicau { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <span>&#128100; Administrador</span>
+        <a href="#">Web Institucional</a>
+        <button type="button" class="btn-logout" id="btnCerrarSesion">Cerrar sesión &#10140;</button>
+    </div>
+
+    <div id="headerSicau">
+        <img class="logo-institucion" src="assets/pascual_header.png" alt="Logo Institución Universitaria Pascual Bravo">
+        <img class="logo-sicau" src="assets/sicauLogo.png" alt="SICAU — Sistema de Información y Control Académico Administrativo Universitario">
+    </div>
+
+    <nav class="navbar">
+        <a href="#inicio" class="active">Inicio</a>
+        <a href="#usuarios">Usuarios</a>
+        <a href="#estudiantes">Estudiantes</a>
+        <a href="#profesores">Profesores</a>
+        <a href="#perfil">Mi perfil</a>
+    </nav>
+
+    <div class="saludo" id="inicio">
+        <div class="mensajeBienvenida">Panel de administración</div>
+        
+    </div>
+
+    <div class="dashboard">
+        <section class="summary-cards" aria-label="Resumen del sistema">
+            <div class="card blue">
+                <div class="card-number">128</div>
+                <div class="card-label">Usuarios totales</div>
+            </div>
+            <div class="card green">
+                <div class="card-number">96</div>
+                <div class="card-label">Estudiantes activos</div>
+            </div>
+            <div class="card orange">
+                <div class="card-number">24</div>
+                <div class="card-label">Profesores</div>
+            </div>
+            <div class="card purple">
+                <div class="card-number">42</div>
+                <div class="card-label">Cursos ofertados</div>
+            </div>
+            <div class="card red">
+                <div class="card-number">8</div>
+                <div class="card-label">Usuarios inactivos</div>
+            </div>
+        </section>
+
+        <section class="section-card" id="perfil">
+            <h2>Datos del administrador</h2>
+            <div class="info-grid">
+                <div class="info-item"><span class="label">Nombre:</span> Juan Pérez</div>
+                <div class="info-item"><span class="label">Documento:</span> 1.234.567</div>
+                <div class="info-item"><span class="label">Correo:</span> admin@pascualbravo.edu.co</div>
+                <div class="info-item"><span class="label">Rol:</span> Administrador del sistema</div>
+                <div class="info-item"><span class="label">Último acceso:</span> 19/04/2026 09:15</div>
+                <div class="info-item"><span class="label">Estado:</span> <span class="badge badge-active">Activo</span></div>
+            </div>
+        </section>
+
+        <section class="section-card" id="usuarios">
+            <div class="section-head">
+                <h2>Gestión de usuarios</h2>
+                <div class="toolbar">
+                    <input type="search" class="search" placeholder="Buscar por nombre o correo…" aria-label="Buscar usuarios">
+                    <button type="button" class="btn btn-primary">Registrar usuario</button>
+                </div>
+            </div>
+            <p style="font-size:0.9rem;color:#666;margin-bottom:1rem;">Puede dar de alta usuarios, desactivarlos o reactivarlos. Los cambios de estado quedan registrados en el sistema.</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>María García</td>
+                            <td>m.garcia@pascualbravo.edu.co</td>
+                            <td><span class="badge badge-role-student">Estudiante</span></td>
+                            <td><span class="badge badge-active">Activo</span></td>
+                            <td class="actions">
+                                <button type="button" class="btn-sm btn-muted">Editar</button>
+                                <button type="button" class="btn-sm btn-danger">Desactivar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Carlos López</td>
+                            <td>c.lopez@pascualbravo.edu.co</td>
+                            <td><span class="badge badge-role-teacher">Profesor</span></td>
+                            <td><span class="badge badge-active">Activo</span></td>
+                            <td class="actions">
+                                <button type="button" class="btn-sm btn-muted">Editar</button>
+                                <button type="button" class="btn-sm btn-danger">Desactivar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ana Ruiz</td>
+                            <td>a.ruiz@pascualbravo.edu.co</td>
+                            <td><span class="badge badge-role-student">Estudiante</span></td>
+                            <td><span class="badge badge-inactive">Inactivo</span></td>
+                            <td class="actions">
+                                <button type="button" class="btn-sm btn-muted">Editar</button>
+                                <button type="button" class="btn-sm btn-success">Reactivar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sistema</td>
+                            <td>admin@pascualbravo.edu.co</td>
+                            <td><span class="badge badge-role-admin">Administrador</span></td>
+                            <td><span class="badge badge-active">Activo</span></td>
+                            <td class="actions">
+                                <button type="button" class="btn-sm btn-muted">Editar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="two-col">
+            <section class="section-card" id="estudiantes">
+                <div class="section-head">
+                    <h2>Estudiantes</h2>
+                    <div class="toolbar">
+                        <input type="search" class="search" placeholder="Buscar estudiante…" aria-label="Buscar estudiantes">
+                    </div>
+                </div>
+                <p style="font-size:0.9rem;color:#666;margin-bottom:1rem;">Datos del usuario y desempeño por curso .</p>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Estudiante</th>
+                                <th>Programa</th>
+                                <th>Promedio</th>
+                                <th>Cursos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>María García</td>
+                                <td>Ingeniería de Sistemas</td>
+                                <td>4.2</td>
+                                <td><button type="button" class="btn-sm btn-muted">Ver detalle</button></td>
+                            </tr>
+                            <tr>
+                                <td>Pedro Sánchez</td>
+                                <td>Administración</td>
+                                <td>3.8</td>
+                                <td><button type="button" class="btn-sm btn-muted">Ver detalle</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="section-card" id="profesores">
+                <div class="section-head">
+                    <h2>Profesores</h2>
+                    <div class="toolbar">
+                        <input type="search" class="search" placeholder="Buscar profesor…" aria-label="Buscar profesores">
+                    </div>
+                </div>
+                <p style="font-size:0.9rem;color:#666;margin-bottom:1rem;">Cursos asignados, calificaciones registradas y datos de contacto.</p>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Profesor</th>
+                                <th>Cursos</th>
+                                <th>Notas cargadas</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Carlos López</td>
+                                <td>3</td>
+                                <td>156</td>
+                                <td><button type="button" class="btn-sm btn-muted">Ver perfil</button></td>
+                            </tr>
+                            <tr>
+                                <td>Laura Méndez</td>
+                                <td>2</td>
+                                <td>88</td>
+                                <td><button type="button" class="btn-sm btn-muted">Ver perfil</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <section class="section-card" id="detalle-estudiante">
+            <h2>Detalle de desempeño</h2>
+            <div class="info-grid" style="margin-bottom:1rem;">
+                <div class="info-item"><span class="label">Estudiante:</span> María García</div>
+                <div class="info-item"><span class="label">Código:</span> 2023123456</div>
+                <div class="info-item"><span class="label">Correo:</span> m.garcia@pascualbravo.edu.co</div>
+                <div class="info-item"><span class="label">Estado:</span> <span class="badge badge-active">Activo</span></div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th>Docente</th>
+                            <th>Definitiva</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Base de datos</td>
+                            <td>C. López</td>
+                            <td>4.5</td>
+                            <td>Aprobado</td>
+                        </tr>
+                        <tr>
+                            <td>Programación web</td>
+                            <td>L. Méndez</td>
+                            <td>3.9</td>
+                            <td>Aprobado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <img class="footer-logo" src="assets/sicauLogo.png" alt="SICAU">
+        <p>Panel de administración</p>
+    </footer>
+
+    <script>
+        document.getElementById('btnCerrarSesion').addEventListener('click', function () {
+            if (confirm('¿Cerrar sesión?')) {
+                /* Aquí enlaza tu ruta real de cierre de sesión, por ejemplo: window.location.href = '/logout'; */
+                alert('En la app real: redirigir al endpoint de cierre de sesión.');
+            }
+        });
+    </script>
+</body>
+</html>
