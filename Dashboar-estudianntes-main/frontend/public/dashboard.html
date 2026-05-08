@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SICAU - Dashboard Estudiante</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box;  }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+         
+           
+        }
+
+  
+        .top-bar {
+            background-color: #293a52;
+            color: white;
+            padding: 6px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.85rem;
+        }
+        .top-bar a { color: white; text-decoration: none; opacity: 0.85; }
+        .top-bar a:hover { opacity: 1; }
+        .btn-logout {
+            background-color: #c0392b;
+            padding: 4px 12px;
+            border-radius: 4px;
+            opacity: 1 !important;
+            font-weight: 600;
+        }
+        .btn-logout:hover { background-color: #e74c3c; }
+        #headerSicau {
+            background-color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            border-bottom: 3px solid #1e2d40;
+        }
+        #headerSicau img {
+            height: 55px;
+        }
+        .navbar {
+            background-color: #1e2d40;
+            display: flex;
+            justify-content: center;
+        }
+        .navbar a {
+            color: #b0c4de;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 12px 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .navbar a:hover, .navbar a.active {
+            color: white;
+            background-color: #293a52;
+        }
+        .saludo {
+            padding: 20px 30px;
+        }
+        .mensajeBienvenida {
+            font-size: 2rem;
+            color: #293a52;
+            font-weight: 700;
+        }
+        .dashboard {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem 1.5rem;
+        }
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 4px solid;
+        }
+        .card.blue   { border-color: #4a90d9; }
+        .card.green  { border-color: #27ae60; }
+        .card.orange { border-color: #e67e22; }
+        .card.purple { border-color: #8e44ad; }
+        .card-number { font-size: 2rem; font-weight: 700; color: #293a52; }
+        .card-label  { font-size: 0.85rem; color: #777; margin-top: 0.3rem; }
+        .section-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        h2 { font-size: 1.15rem; color: #293a52; margin-bottom: 1rem; }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.8rem;
+        }
+        .info-item { font-size: 0.95rem; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+        .info-item .label { font-weight: 600; color: #555; }
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        thead { background-color: #293a52; color: white; }
+        th, td { padding: 0.75rem 1rem; text-align: left; }
+        tbody tr { border-bottom: 1px solid #eee; }
+        tbody tr:hover { background-color: #f8f9fa; }
+        .empty { text-align: center; color: #aaa; padding: 2rem; }
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #888;
+            font-size: 0.85rem;
+            border-top: 1px solid #ddd;
+        }
+        @media (max-width: 600px) {
+            .mensajeBienvenida { font-size: 1.4rem; }
+            .navbar { flex-wrap: wrap; }
+            #headerSicau { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <span>&#128100; usuario</span>
+        <a href="#">Web Institucional</a>
+        <a href="#" class="btn-logout">Cerrar sesi&oacute;n &#10140;</a>
+    </div>
+
+    <div id="headerSicau">
+        <img src="/assets/pascual_header.png">
+        <img src="/assets/sicauLogo.png" alt="SICAU">
+    </div>
+
+    <nav class="navbar">
+        <a href="#" class="active">Inicio</a>
+        <a href="#Materias">Materias</a>
+        <a href="#Notas">Notas</a>
+        <a href="#Metricas">Metricas</a>
+        <a href="#info">Mi Perfil</a>
+    </nav>
+
+    <div class="saludo">
+        <span class="mensajeBienvenida">Hola, Bienvenido a SICAU!!!</span>
+    </div>
+
+    <div class="dashboard">
+        <section class="summary-cards">
+            <div class="card blue">
+                <div class="card-number" id="mater">-</div>
+                <div class="card-label">Materias Inscritas</div>
+            </div>
+            <div class="card green">
+                <div class="card-number" id="promedio">-</div>
+                <div class="card-label">Promedio</div>
+            </div>
+            <div class="card orange">
+                <div class="card-number" id="creditos">-</div>
+                <div class="card-label">Creditos</div>
+            </div>
+            <div class="card purple">
+                <div class="card-number" id="semestre">-</div>
+                <div class="card-label">Semestre </div>
+            </div>
+        </section>
+
+        <section class="section-card" id="info">
+            <h2>Informaci&oacute;n del Estudiante</h2>
+            <div class="info-grid">
+                <div class="info-item"><span class="label">Nombre:</span><span id="Nombre"></span></div>
+                <div class="info-item"><span class="label">C&oacute;digo:</span><span id="Codigo"></span></div>
+                <div class="info-item"><span class="label">Programa:</span> <span id="Crograma"></span></div>
+                <div class="info-item"><span class="label">Correo:</span><span id="Correo"></span></div>
+                <div class="info-item"><span class="label">Jornada:</span> <span id="Jornada"></span></div>
+                <div class="info-item"><span class="label">Estado:</span> <span id="Estado"></span></div>
+            </div>
+        </section>
+
+        <section class="section-card" id="Materias">
+            <h2>Materias Inscritas</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>C&oacute;digo</th>
+                            <th>Materia</th>
+                            <th>Cr&eacute;ditos</th>
+                            <th>Docente</th>
+                            <th>Horario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="5" class="empty">Sin datos</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section-card" id="Notas">
+            <h2>Registro de Notas</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Materia</th>
+                            <th>Parcial 1</th>
+                            <th>Parcial 2</th>
+                            <th>Final</th>
+                            <th>Definitiva</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="6" class="empty">Sin datos</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    
+        <section class="section-card" id="Metricas">
+    <h2>Desempeño y Estilo de Aprendizaje</h2>
+
+    <div class="grafica-contenedor">
+        <canvas id="graficaDesempeno"></canvas>
+    </div>
+
+    <div class="grafica-contenedor">
+        <canvas id="graficaEstilo"></canvas>
+    </div>
+</section>
+    </div>
+
+    <footer>
+        <p>SICAU &mdash; Dashboard Estudiantil</p>
+    </footer>
+</body>
+
+
+
+
+
+
+</html>
